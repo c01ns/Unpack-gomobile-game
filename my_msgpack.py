@@ -3,7 +3,7 @@ import json
 import os
 
 
-# D:\HanHua\2GameWait\捕鼠器
+# 解文件夹包 解压数据在同级目录中
 def unpack_dir(file_path):
     buf = open(file_path +"/assets.msgpack", "rb")
     unpacker = msgpack.Unpacker(buf, raw=False)
@@ -17,7 +17,7 @@ def unpack_dir(file_path):
             open(file_path + "/" +i, "wb+").write(unpacked[i])
 
 
-# 遍历文件夹
+# 序列化文件夹包  打包的数据在文件夹内
 def pack_dir(dir_root):
     file_dict = {}
     for root, dirs, files in os.walk(dir_root):
@@ -33,11 +33,10 @@ def pack_dir(dir_root):
             print(path)
             file_dict[str(path).replace(dir_root + "/", "")] = open(path, "rb").read()
 
-    with open(dir_root+"\\new_file", 'wb') as f:
+    with open(dir_root+"\\new_assets.msgpack", 'wb') as f:
         msgpack.dump(file_dict, f)
 
-
-# D:\HanHua\2GameWait\捕鼠器\project.msgpack
+# 格式化文本数据
 def unpack_file(file):
     buf = open(file, "rb")
     unpacker = msgpack.Unpacker(buf, raw=False)
@@ -47,7 +46,7 @@ def unpack_file(file):
         open(file+"_.txt", "wb").write(json.dumps(unpacked, ensure_ascii=False, indent=4))
 
 
-# D:\HanHua\2GameWait\捕鼠器\project.txt
+# 序列化文本
 def pack_file(file):
     data = json.loads(open(file, "r+", encoding="utf8").read())
     with open(file + "_.msgpack", 'wb') as f:
@@ -56,4 +55,4 @@ def pack_file(file):
 
 
 if __name__ == '__main__':
-    pack_dir(r'D:/HanHua/2GameWait/捕鼠器/文件-副本')
+    pack_dir(r'D:/xx')
